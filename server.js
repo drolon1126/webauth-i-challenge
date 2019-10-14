@@ -47,7 +47,7 @@ server.post('/api/login', (req, res) => {
 
 });
 
-server.get('/api/users', (req, res) => {
+server.get('/api/users', restricted, (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -56,5 +56,11 @@ server.get('/api/users', (req, res) => {
       res.status(500).json({ message: 'There was a problem getting users' });
     })
 });
+
+function restricted(req,res,next){
+  //move this to global for stretch.
+  //write login validation here
+  res.status(401).json({ message: 'You cannot pass!!' });
+}
 
 module.exports = server;
